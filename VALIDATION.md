@@ -1,4 +1,4 @@
-# Validation — 1 November 2026
+# Validation — 7 November 2026
 
 - Production build: passed (`npm run build`, Next.js Webpack).
 - ESLint: passed, no warnings.
@@ -12,4 +12,13 @@
 - All product-specific demo interactions exercised by `tests/interactions.spec.ts`.
 - Development server also exercised on the representative NOIR app.
 
-No live backend, authentication, transaction, AI inference or 3D model is represented as functioning. See README.md for the supported local demo boundaries. Source is prepared locally; no GitHub push or deployment was performed.
+No live backend, authentication, transaction, AI inference or 3D model is represented as functioning. See README.md for the supported local demo boundaries.
+
+## Tailwind migration
+
+- Replaced the standalone brand/component stylesheet with Tailwind v4 utilities in TSX.
+- Retained only Tailwind setup, tokens, document defaults, accessibility and animation keyframes in `app/globals.css`.
+- Production build, ESLint, strict TypeScript and the complete Playwright suite passed after migration.
+- Compared document/component styles at the six listed viewport sizes and checked the concept route at desktop and mobile sizes.
+- Compared interactive styles for the scrolled header and product-specific selections against the previous styles.
+- Updated class-state assertions to match complete class tokens, so arbitrary Tailwind selectors cannot satisfy them accidentally.

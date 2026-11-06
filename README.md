@@ -24,3 +24,7 @@ The supplied ZIP contains textual briefs and reference links but no attached scr
 ## Browser validation
 
 Run `npm test` against the production server. The Playwright suite checks responsive layout, local assets, navigation and product interactions. Set `BROWSER_EXECUTABLE_PATH=/usr/bin/chromium` to use the cloud image browser; otherwise install Chromium with `npx playwright install chromium`. Screenshots are written to `test-results/`. Build and development scripts use the supported Webpack bundler for compatibility with environments that restrict Turbopack subprocess sockets.
+
+## Styling
+
+Use Tailwind CSS v4 utilities in TSX for component styling, including responsive states, pseudo-elements and interactions. Keep `app/globals.css` limited to Tailwind setup, design tokens, document defaults, accessibility and animation keyframes. Do not add standalone component CSS files. Semantic class names remain as hooks for animations, selectors and browser tests; styling comes from the adjacent Tailwind utilities. Values calculated at runtime (chart heights, swatch colors and animation delays) remain inline.

@@ -32,7 +32,7 @@ export function BrandMark({
     <svg
       viewBox="0 0 40 40"
       fill="none"
-      className={`brand-mark ${className}`}
+      className={`brand-mark w-[30px] h-[30px] [@media(max-width:_760px)]:w-[27px] [@media(max-width:_760px)]:h-[27px] ${className}`}
       aria-hidden="true"
     >
       {brand === "noir" && (
@@ -127,9 +127,34 @@ export function SiteHeader({
   }
   return (
     <header
-      className={`site-header header-${brand} ${scrolled ? "header-scrolled" : ""}`}
+      className={`
+        site-header z-[50] left-[var(--gutter)] right-[var(--gutter)] top-0 h-[94px] flex items-center justify-between
+        gap-[25px] [border-bottom:1px_solid_var(--line)] fixed
+        [transition:background_0.25s,_backdrop-filter_0.25s,_height_0.25s]
+        [@media(min-width:_1800px)]:[left:max(var(--gutter),_calc((100vw_-_1500px)_/_2))]
+        [@media(min-width:_1800px)]:[right:max(var(--gutter),_calc((100vw_-_1500px)_/_2))]
+        [@media(max-width:_1000px)]:gap-[18px] [@media(max-width:_760px)]:h-[78px]
+        [@media(max-width:_760px)]:[&>.nav-action]:hidden [&:has(.nav-secondary)_.desktop-nav]:ml-auto
+        [&:has(.nav-secondary)_.desktop-nav]:mr-auto [&.header-scrolled]:top-[10px] [&.header-scrolled]:h-[65px]
+        [&.header-scrolled]:py-0 [&.header-scrolled]:px-[18px]
+        [&.header-scrolled]:bg-[color-mix(in_srgb,_var(--bg)_92%,_transparent)]
+        [&.header-scrolled]:[backdrop-filter:blur(18px)] [&.header-scrolled]:[border:1px_solid_var(--line)]
+        [@media(max-width:_760px)]:[&.header-scrolled]:h-[58px]
+        [@media(max-width:_760px)]:[&.header-scrolled]:top-[8px]
+        [@media(max-width:_760px)]:[&.header-scrolled]:left-[18px]
+        [@media(max-width:_760px)]:[&.header-scrolled]:right-[18px] [@media(max-width:_760px)]:[&.header-scrolled]:py-0
+        [@media(max-width:_760px)]:[&.header-scrolled]:px-[12px] [&:where(.header-noir)_.wordmark]:text-[32px]
+        [&:where(.header-noir)_.wordmark]:tracking-[-0.09em] [&:where(.header-noir)_.brand-mark]:w-[25px]
+        [&:where(.header-noir)_.nav-action]:text-[10px] [&:where(.header-noir)_.nav-action]:tracking-[0.08em] header-${brand} ${scrolled ? "header-scrolled" : ""}`}
     >
-      <Link href="/" className="wordmark" aria-label={`${brand} home`}>
+      <Link
+        href="/"
+        className={`
+        wordmark inline-flex items-center gap-[10px] font-[family-name:var(--font-display),_sans-serif] text-[25px]
+        font-semibold tracking-[-0.07em] whitespace-nowrap [@media(max-width:_760px)]:text-[24px]
+      `}
+        aria-label={`${brand} home`}
+      >
         <BrandMark brand={brand} />
         <span>
           {brand === "noir"
@@ -141,7 +166,14 @@ export function SiteHeader({
                 : brand.toUpperCase()}
         </span>
       </Link>
-      <nav className="desktop-nav" aria-label="Main navigation">
+      <nav
+        className={`
+        desktop-nav flex items-center gap-[28px] [&_a]:text-[11px] [&_a]:text-[var(--muted)]
+        [&_a]:[transition:color_0.2s] [&_a:hover]:text-[var(--text)] [@media(max-width:_1000px)]:gap-[17px]
+        [@media(max-width:_760px)]:hidden
+      `}
+        aria-label="Main navigation"
+      >
         {links.map((l) => (
           <a key={l.href} href={l.href}>
             {l.label}
@@ -149,16 +181,28 @@ export function SiteHeader({
         ))}
       </nav>
       {onSecondary && (
-        <button className="nav-secondary" onClick={onSecondary}>
+        <button
+          className={`
+          nav-secondary ml-auto bg-[transparent] text-[var(--muted)] text-[11px] whitespace-nowrap
+          [@media(max-width:_760px)]:hidden
+        `}
+          onClick={onSecondary}
+        >
           {brand === "synapse" ? "Sign in" : "Log in"}
         </button>
       )}
-      <button className="nav-action" onClick={onAction}>
+      <button
+        className={`nav-action inline-flex items-center gap-[18px] bg-[transparent] text-[11px] whitespace-nowrap`}
+        onClick={onAction}
+      >
         {action}
         <Arrow />
       </button>
       <button
-        className="menu-toggle icon-button"
+        className={`
+          menu-toggle hidden [@media(max-width:_760px)]:grid icon-button w-[44px] h-[44px] place-items-center
+          bg-[transparent] text-[inherit] [border:1px_solid_var(--line)]
+        `}
         aria-label="Open navigation"
         aria-haspopup="dialog"
         aria-expanded={expanded}
@@ -171,17 +215,34 @@ export function SiteHeader({
       </button>
       <dialog
         ref={dialog}
-        className="mobile-menu"
+        className={`
+          mobile-menu fixed inset-0 w-full h-full max-w-none max-h-none p-[25px] bg-[var(--bg)] text-[var(--text)]
+          [border:0] m-0 [&::backdrop]:bg-[var(--bg)] [&_nav]:flex [&_nav]:flex-col [&_nav]:mb-[40px] [&_nav_a]:flex
+          [&_nav_a]:items-center [&_nav_a]:gap-[16px] [&_nav_a]:py-[20px] [&_nav_a]:px-0
+          [&_nav_a]:[border-top:1px_solid_var(--line)] [&_nav_a]:text-[28px]
+          [&_nav_a]:font-[family-name:var(--font-display),_sans-serif] [&_nav_a_span]:text-[10px]
+          [&_nav_a_span]:text-[var(--muted)] [&_nav_a_svg]:ml-auto [&_.micro]:mt-[30px] [&_.micro]:text-[var(--muted)]
+        `}
         onCancel={() => setExpanded(false)}
         aria-label="Navigation"
       >
-        <div className="mobile-menu-top">
-          <span className="wordmark">
+        <div
+          className={`mobile-menu-top flex justify-between items-center mb-[50px]`}
+        >
+          <span
+            className={`
+            wordmark inline-flex items-center gap-[10px] font-[family-name:var(--font-display),_sans-serif] text-[25px]
+            font-semibold tracking-[-0.07em] whitespace-nowrap [@media(max-width:_760px)]:text-[24px]
+          `}
+          >
             <BrandMark brand={brand} />
             {brand.toUpperCase()}
           </span>
           <button
-            className="icon-button"
+            className={`
+              icon-button w-[44px] h-[44px] grid place-items-center bg-[transparent] text-[inherit]
+              [border:1px_solid_var(--line)]
+            `}
             aria-label="Close navigation"
             onClick={closeMenu}
           >
@@ -198,7 +259,18 @@ export function SiteHeader({
           ))}
         </nav>
         <button
-          className="button primary"
+          className={`
+            button min-h-[49px] py-[15px] px-[22px] inline-flex items-center justify-center gap-[25px] text-[12px]
+            font-semibold tracking-[0.015em] [border:1px_solid_var(--line)] bg-[transparent]
+            [transition:background_0.2s,_transform_0.2s,_border-color_0.2s] whitespace-nowrap
+            [&:hover]:[transform:translateY(-2px)] [&:hover]:[border-color:var(--text)] [&.primary]:bg-[var(--accent)]
+            [&.primary]:text-[var(--bg)] [&.primary]:[border-color:var(--accent)]
+            [&.primary:hover]:bg-[color-mix(in_srgb,_var(--accent)_82%,_white)]
+            [&.primary:hover]:[border-color:transparent] [&.light]:bg-[var(--text)] [&.light]:text-[var(--bg)]
+            [&.ghost:hover]:bg-[rgba(255,_255,_255,_0.05)] [@media(max-width:_760px)]:text-[11px]
+            [@media(max-width:_760px)]:py-[14px] [@media(max-width:_760px)]:px-[18px] [@media(max-width:_760px)]:gap-[20px]
+            primary
+          `}
           onClick={() => {
             closeMenu();
             onAction();
@@ -207,7 +279,11 @@ export function SiteHeader({
           {action}
           <Arrow />
         </button>
-        <p className="micro">A different perspective. By design.</p>
+        <p
+          className={`micro text-[10px] font-medium tracking-[0.15em] uppercase leading-[1.6]`}
+        >
+          A different perspective. By design.
+        </p>
       </dialog>
     </header>
   );
@@ -233,7 +309,14 @@ export function Dialog({
   return (
     <dialog
       ref={ref}
-      className="dialog"
+      className={`
+        dialog [border:1px_solid_var(--line)] text-[var(--text)] bg-[var(--surface)] p-0
+        [max-width:min(560px,_calc(100vw_-_32px))] [max-height:calc(100dvh_-_40px)] w-full rounded-[10px]
+        [box-shadow:0_35px_150px_#000a] [&::backdrop]:bg-[#020309c9] [&::backdrop]:[backdrop-filter:blur(10px)]
+        [&_h2]:text-[38px] [&_h2]:leading-[1.1] [&_h2]:mt-[25px] [&_h2]:mx-0 [&_h2]:mb-[20px]
+        [&_p:not(.eyebrow)]:text-[13px] [&_p:not(.eyebrow)]:text-[var(--muted)] [&_p:not(.eyebrow)]:mb-[22px]
+        [@media(max-width:_760px)]:[&_h2]:text-[32px]
+      `}
       aria-label={title}
       onCancel={(e) => {
         e.preventDefault();
@@ -243,15 +326,29 @@ export function Dialog({
         if (e.target === e.currentTarget) onClose();
       }}
     >
-      <div className="dialog-inner">
+      <div
+        className={`dialog-inner p-[44px] relative [@media(max-width:_760px)]:py-[36px] [@media(max-width:_760px)]:px-[25px]`}
+      >
         <button
-          className="dialog-close icon-button"
+          className={`
+            dialog-close absolute right-[14px] top-[14px] [border:0] icon-button w-[44px] h-[44px] grid place-items-center
+            bg-[transparent] text-[inherit]
+          `}
           onClick={onClose}
           aria-label="Close dialog"
         >
           <X />
         </button>
-        <p className="eyebrow">A CONCEPT. A CONVERSATION.</p>
+        <p
+          className={`
+          eyebrow text-[10px] font-medium tracking-[0.15em] uppercase leading-[1.6] flex items-center gap-[10px]
+          text-[var(--muted)] mb-[25px] [&_.dot]:w-[6px] [&_.dot]:h-[6px] [&_.dot]:inline-block
+          [&_.dot]:bg-[var(--accent)] [&_.dot]:rounded-full
+          [&_.dot]:[box-shadow:0_0_12px_color-mix(in_srgb,_var(--accent)_50%,_transparent)]
+        `}
+        >
+          A CONCEPT. A CONVERSATION.
+        </p>
         <h2>{title}</h2>
         {children}
       </div>
@@ -272,7 +369,15 @@ export function SignupForm({
     setDone(true);
   };
   return done ? (
-    <div className="form-success" role="status">
+    <div
+      className={`
+      form-success flex gap-[15px] p-[23px] [border:1px_solid_var(--line)]
+      bg-[color-mix(in_srgb,_var(--accent)_7%,_transparent)] text-left [&>svg]:text-[var(--accent)]
+      [&_strong]:text-[14px] [&_strong]:leading-[1.6] [&_p]:text-[12px] [&_p]:text-[var(--muted)] [&_p]:mt-[8px]
+      [&_p]:mx-0 [&_p]:mb-[12px]
+    `}
+      role="status"
+    >
       <Check size={24} />
       <div>
         <strong>You’re on the list. In this little universe.</strong>
@@ -280,7 +385,13 @@ export function SignupForm({
           Demo complete — your details stayed in this browser and were not sent
           or saved.
         </p>
-        <button className="text-link" onClick={() => setDone(false)}>
+        <button
+          className={`
+          text-link inline-flex items-center gap-[10px] text-[12px] py-[5px] px-0 [border-bottom:1px_solid_var(--line)]
+          bg-[transparent] [transition:gap_0.2s] [&:hover]:gap-[16px]
+        `}
+          onClick={() => setDone(false)}
+        >
           Try another email <ArrowRight size={15} />
         </button>
       </div>
@@ -288,7 +399,21 @@ export function SignupForm({
   ) : (
     <form
       onSubmit={submit}
-      className={compact ? "signup-form compact" : "signup-form"}
+      className={
+        compact
+          ? `
+        signup-form [&_input]:min-w-0 [&_input]:w-full [&_input]:text-[var(--text)] [&_input]:bg-[rgba(0,_0,_0,_0.2)]
+        [&_input]:[border:1px_solid_var(--line)] [&_input]:rounded-[3px] [&_input]:py-[14px] [&_input]:px-[15px]
+        [&_input]:outline-offset-[3px] [&_input]:text-[13px] grid [grid-template-columns:1fr_auto] gap-[8px]
+        max-w-[500px] [@media(max-width:_760px)]:grid-cols-[1fr] [@media(max-width:_760px)]:[&_.button]:w-full compact
+      `
+          : `
+        signup-form [&_input]:min-w-0 [&_input]:w-full [&_input]:text-[var(--text)] [&_input]:bg-[rgba(0,_0,_0,_0.2)]
+        [&_input]:[border:1px_solid_var(--line)] [&_input]:rounded-[3px] [&_input]:py-[14px] [&_input]:px-[15px]
+        [&_input]:outline-offset-[3px] [&_input]:text-[13px] grid [grid-template-columns:1fr_auto] gap-[8px]
+        max-w-[500px] [@media(max-width:_760px)]:grid-cols-[1fr] [@media(max-width:_760px)]:[&_.button]:w-full
+      `
+      }
     >
       <label
         className="sr-only"
@@ -305,11 +430,29 @@ export function SignupForm({
         required
         maxLength={254}
       />
-      <button className="button primary" type="submit">
+      <button
+        className={`
+        button min-h-[49px] py-[15px] px-[22px] inline-flex items-center justify-center gap-[25px] text-[12px]
+        font-semibold tracking-[0.015em] [border:1px_solid_var(--line)] bg-[transparent]
+        [transition:background_0.2s,_transform_0.2s,_border-color_0.2s] whitespace-nowrap
+        [&:hover]:[transform:translateY(-2px)] [&:hover]:[border-color:var(--text)] [&.primary]:bg-[var(--accent)]
+        [&.primary]:text-[var(--bg)] [&.primary]:[border-color:var(--accent)]
+        [&.primary:hover]:bg-[color-mix(in_srgb,_var(--accent)_82%,_white)]
+        [&.primary:hover]:[border-color:transparent] [&.light]:bg-[var(--text)] [&.light]:text-[var(--bg)]
+        [&.ghost:hover]:bg-[rgba(255,_255,_255,_0.05)] [@media(max-width:_760px)]:text-[11px]
+        [@media(max-width:_760px)]:py-[14px] [@media(max-width:_760px)]:px-[18px] [@media(max-width:_760px)]:gap-[20px]
+        primary
+      `}
+        type="submit"
+      >
         {button}
         <Arrow />
       </button>
-      <span className="form-note">Local demo · No data is transmitted.</span>
+      <span
+        className={`form-note col-span-full text-[var(--muted)] text-[10px] mt-[5px]`}
+      >
+        Local demo · No data is transmitted.
+      </span>
     </form>
   );
 }
@@ -339,13 +482,35 @@ export function ContactModal({
             sign into. Explore the live preview to see what the workspace could
             feel like.
           </p>
-          <button className="button primary" onClick={close}>
+          <button
+            className={`
+            button min-h-[49px] py-[15px] px-[22px] inline-flex items-center justify-center gap-[25px] text-[12px]
+            font-semibold tracking-[0.015em] [border:1px_solid_var(--line)] bg-[transparent]
+            [transition:background_0.2s,_transform_0.2s,_border-color_0.2s] whitespace-nowrap
+            [&:hover]:[transform:translateY(-2px)] [&:hover]:[border-color:var(--text)] [&.primary]:bg-[var(--accent)]
+            [&.primary]:text-[var(--bg)] [&.primary]:[border-color:var(--accent)]
+            [&.primary:hover]:bg-[color-mix(in_srgb,_var(--accent)_82%,_white)]
+            [&.primary:hover]:[border-color:transparent] [&.light]:bg-[var(--text)] [&.light]:text-[var(--bg)]
+            [&.ghost:hover]:bg-[rgba(255,_255,_255,_0.05)] [@media(max-width:_760px)]:text-[11px]
+            [@media(max-width:_760px)]:py-[14px] [@media(max-width:_760px)]:px-[18px] [@media(max-width:_760px)]:gap-[20px]
+            primary
+          `}
+            onClick={close}
+          >
             Back to exploring
             <ArrowRight size={17} />
           </button>
         </>
       ) : done ? (
-        <div className="form-success" role="status">
+        <div
+          className={`
+          form-success flex gap-[15px] p-[23px] [border:1px_solid_var(--line)]
+          bg-[color-mix(in_srgb,_var(--accent)_7%,_transparent)] text-left [&>svg]:text-[var(--accent)]
+          [&_strong]:text-[14px] [&_strong]:leading-[1.6] [&_p]:text-[12px] [&_p]:text-[var(--muted)] [&_p]:mt-[8px]
+          [&_p]:mx-0 [&_p]:mb-[12px]
+        `}
+          role="status"
+        >
           <Check />
           <div>
             <strong>Your preview is complete.</strong>
@@ -362,7 +527,14 @@ export function ContactModal({
             validates locally and does not transmit or store your details.
           </p>
           <form
-            className="contact-form"
+            className={`
+              contact-form flex flex-col gap-[20px] [&_label]:grid [&_label]:gap-[9px] [&_label]:text-[12px]
+              [&_input]:min-w-0 [&_input]:w-full [&_input]:text-[var(--text)] [&_input]:bg-[rgba(0,_0,_0,_0.2)]
+              [&_input]:[border:1px_solid_var(--line)] [&_input]:rounded-[3px] [&_input]:py-[14px] [&_input]:px-[15px]
+              [&_input]:outline-offset-[3px] [&_textarea]:min-w-0 [&_textarea]:w-full [&_textarea]:text-[var(--text)]
+              [&_textarea]:bg-[rgba(0,_0,_0,_0.2)] [&_textarea]:[border:1px_solid_var(--line)] [&_textarea]:rounded-[3px]
+              [&_textarea]:py-[14px] [&_textarea]:px-[15px] [&_textarea]:outline-offset-[3px] [&_textarea]:resize-y
+            `}
             onSubmit={(e) => {
               e.preventDefault();
               setDone(true);
@@ -403,7 +575,21 @@ export function ContactModal({
                 />
               </label>
             )}
-            <button type="submit" className="button primary">
+            <button
+              type="submit"
+              className={`
+              button min-h-[49px] py-[15px] px-[22px] inline-flex items-center justify-center gap-[25px] text-[12px]
+              font-semibold tracking-[0.015em] [border:1px_solid_var(--line)] bg-[transparent]
+              [transition:background_0.2s,_transform_0.2s,_border-color_0.2s] whitespace-nowrap
+              [&:hover]:[transform:translateY(-2px)] [&:hover]:[border-color:var(--text)] [&.primary]:bg-[var(--accent)]
+              [&.primary]:text-[var(--bg)] [&.primary]:[border-color:var(--accent)]
+              [&.primary:hover]:bg-[color-mix(in_srgb,_var(--accent)_82%,_white)]
+              [&.primary:hover]:[border-color:transparent] [&.light]:bg-[var(--text)] [&.light]:text-[var(--bg)]
+              [&.ghost:hover]:bg-[rgba(255,_255,_255,_0.05)] [@media(max-width:_760px)]:text-[11px]
+              [@media(max-width:_760px)]:py-[14px] [@media(max-width:_760px)]:px-[18px] [@media(max-width:_760px)]:gap-[20px]
+              primary
+            `}
+            >
               {kind === "inquiry" ? "Preview your inquiry" : "Preview signup"}
               <Send size={17} />
             </button>
@@ -416,11 +602,27 @@ export function ContactModal({
 
 export function FAQ({ items }: { items: { q: string; a: string }[] }) {
   return (
-    <div className="faq-list">
+    <div
+      className={`
+      faq-list [border-top:1px_solid_var(--line)] [&_details]:[border-bottom:1px_solid_var(--line)] [&_summary]:flex
+      [&_summary]:items-center [&_summary]:gap-[24px] [&_summary]:py-[25px] [&_summary]:px-0
+      [&_summary]:cursor-pointer [&_summary]:list-none [&_summary]:text-[15px]
+      [&_summary::-webkit-details-marker]:hidden [&_summary>svg]:ml-auto [&_summary>svg]:[transition:transform_0.2s]
+      [&_details[open]_summary>svg]:[transform:rotate(45deg)] [&_details>p]:text-[var(--muted)] [&_details>p]:pt-0
+      [&_details>p]:px-[45px] [&_details>p]:pb-[25px] [&_details>p]:max-w-[700px] [&_details>p]:text-[14px]
+      [@media(max-width:_760px)]:[&_summary]:text-[14px] [@media(max-width:_760px)]:[&_summary]:gap-[15px]
+      [@media(max-width:_760px)]:[&_details>p]:pl-[30px] [@media(max-width:_760px)]:[&_details>p]:pr-[15px]
+      [@media(max-width:_760px)]:[&_details>p]:text-[13px]
+    `}
+    >
       {items.map((item, i) => (
         <details key={item.q}>
           <summary>
-            <span className="faq-index">0{i + 1}</span>
+            <span
+              className={`faq-index text-[var(--muted)] text-[10px] tracking-[0.1em]`}
+            >
+              0{i + 1}
+            </span>
             <span>{item.q}</span>
             <Plus size={20} />
           </summary>
@@ -438,9 +640,25 @@ export function Footer({
   links?: { label: string; href: string }[];
 }) {
   return (
-    <footer className="site-footer">
-      <div className="footer-main">
-        <a href="#main" className="wordmark">
+    <footer
+      className={`site-footer py-0 px-[var(--gutter)] max-w-[1680px] m-auto`}
+    >
+      <div
+        className={`
+        footer-main py-[50px] px-0 flex items-center justify-between gap-[25px] [border-top:1px_solid_var(--line)]
+        [&>span]:text-[12px] [&>span]:text-[var(--muted)] [&>div]:flex [&>div]:gap-[25px] [&>div]:text-[12px]
+        [@media(max-width:_1000px)]:[&>span]:hidden [@media(max-width:_760px)]:items-start
+        [@media(max-width:_760px)]:gap-[30px] [@media(max-width:_760px)]:[&>div]:flex-col
+        [@media(max-width:_760px)]:[&>div]:gap-[16px] [@media(max-width:_760px)]:[&_.wordmark]:text-[30px]
+      `}
+      >
+        <a
+          href="#main"
+          className={`
+          wordmark inline-flex items-center gap-[10px] font-[family-name:var(--font-display),_sans-serif] text-[25px]
+          font-semibold tracking-[-0.07em] whitespace-nowrap [@media(max-width:_760px)]:text-[24px]
+        `}
+        >
           <BrandMark brand={brand} />
           {brand === "noir"
             ? "NOIR."
@@ -457,7 +675,13 @@ export function Footer({
           ))}
         </div>
       </div>
-      <div className="footer-bottom">
+      <div
+        className={`
+        footer-bottom [border-top:1px_solid_var(--line)] flex justify-between gap-[20px] py-[24px] px-0 text-[10px]
+        text-[var(--muted)] [&_a]:flex [&_a]:items-center [&_a]:gap-[5px] [@media(max-width:_760px)]:flex-wrap
+        [@media(max-width:_760px)]:leading-[1.8] [@media(max-width:_760px)]:[&>span]:w-full
+      `}
+      >
         <span>
           © 2026 {brand.toUpperCase()} · Concept / self-initiated project
         </span>
@@ -476,35 +700,31 @@ export function ScrollEffects() {
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
     gsap.registerPlugin(ScrollTrigger);
     const ctx = gsap.context(() => {
-      gsap.utils
-        .toArray<HTMLElement>(".parallax-image")
-        .forEach((el) =>
-          gsap.fromTo(
-            el,
-            { scale: 1.065 },
-            {
-              scale: 1,
-              ease: "none",
-              scrollTrigger: {
-                trigger: el,
-                start: "top bottom",
-                end: "bottom top",
-                scrub: 1,
-              },
+      gsap.utils.toArray<HTMLElement>(".parallax-image").forEach((el) =>
+        gsap.fromTo(
+          el,
+          { scale: 1.065 },
+          {
+            scale: 1,
+            ease: "none",
+            scrollTrigger: {
+              trigger: el,
+              start: "top bottom",
+              end: "bottom top",
+              scrub: 1,
             },
-          ),
-        );
-      gsap.utils
-        .toArray<HTMLElement>(".reveal-block")
-        .forEach((el) =>
-          gsap.from(el, {
-            y: 22,
-            opacity: 0.45,
-            duration: 0.8,
-            ease: "power2.out",
-            scrollTrigger: { trigger: el, start: "top 93%", once: true },
-          }),
-        );
+          },
+        ),
+      );
+      gsap.utils.toArray<HTMLElement>(".reveal-block").forEach((el) =>
+        gsap.from(el, {
+          y: 22,
+          opacity: 0.45,
+          duration: 0.8,
+          ease: "power2.out",
+          scrollTrigger: { trigger: el, start: "top 93%", once: true },
+        }),
+      );
     });
     return () => ctx.revert();
   }, []);

@@ -143,8 +143,13 @@ test("normal motion initializes cleanly and content survives without JavaScript"
     waitUntil: "networkidle",
   });
   await page.evaluate(() => window.scrollTo(0, 700));
-  await expect(page.locator(".site-header")).toHaveClass(/header-scrolled/);
+  await expect(page.locator(".site-header")).toHaveClass(
+    /(?:^|\s)header-scrolled(?:\s|$)/,
+  );
   await page.evaluate(() => window.scrollTo(0, 0));
+  await expect(page.locator(".site-header")).not.toHaveClass(
+    /(?:^|\s)header-scrolled(?:\s|$)/,
+  );
   await expect(page.locator("h1")).toBeVisible();
   expect(errors).toEqual([]);
   await animated.close();

@@ -1,7 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import localFont from "next/font/local";
 import "./globals.css";
-import "./noir.css";
 const inter = localFont({
   src: "../node_modules/@fontsource-variable/inter/files/inter-latin-wght-normal.woff2",
   variable: "--font-body",
@@ -31,7 +30,12 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`${inter.variable} ${display.variable}`}>
-        <a className="skip-link" href="#main">
+        <a
+          className={`
+          skip-link fixed left-[16px] top-[-80px] z-[200] p-[14px] bg-[var(--text)] text-[var(--bg)] [&:focus]:top-[12px]
+        `}
+          href="#main"
+        >
           Skip to content
         </a>
         {children}
